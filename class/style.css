@@ -1,0 +1,81 @@
+body{
+    background-color:black;
+    color: whitesmoke;
+}
+
+div{
+    background-color: red;
+    color: yellowgreen;
+    padding: 16px;
+    border: solid  white;
+    margin: 20px;
+}
+
+.a{
+    background-color: blue;
+    color: white;
+    height: 700px;
+    overflow-y: scroll;
+}
+
+.a div{
+    margin: 32px 0;
+}
+.b{
+    background-color: green;
+    color: black;
+}
+
+.c{
+    background-color: purple;
+    color: black;
+    font-weight: bold;
+}
+
+.d{
+    background-color: pink;
+    color: black;
+}
+
+.name{
+    color: black;
+    font-weight: 700;
+}
+
+#Asif{
+    background-color: aqua;
+    color: black;
+    font-size: 25px;
+}
+
+.e{
+    background-color: red;
+    color: black;
+}
+
+.height-display{
+    background-color: orange;
+    color: black;
+    height: 100%;
+    width: 50%;
+}
+
+span{
+    background-color: yellow;
+    color: black;
+    height: 25px;
+    margin: 15px;
+}
+
+.inline-block{
+    display: inline-block;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    width: 70%;
+}
+
+.inline-block-parent {
+    text-align: center;
+    background-color: blue;
+    width : 700px;
+}
