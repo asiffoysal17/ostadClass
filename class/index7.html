@@ -4,18 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My web page</title>
+    <style>
+      .highlight {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
     <h1 id="title">Hello Dom</h1>
     <h2 id="titlee">Hello ostad</h2>
+    <h2 id="text">Hover Over Me</h2>
+    <p id="info">welcome</p>
     <p class="text">My name is Asif Foysal Tanvir</p>
     <p class="text">I am a web developer</p>
-    <p id="info">welcome</p>
+    <p id="para">This is Paragraph</p>
 
     <div class="card">Card 1</div>
     <div class="card">Card 2</div>
     <div class="card">Card 3</div>
     <div class="card">Card 4</div>
+
+    <div id="container"></div>
+
+    <form action="" id="userform">
+      <input type="text" placeholder="Enter your name" id="name" required />
+      <!-- <input type="email" placeholder="Enter your email" id="email" required /> -->
+      <button id="submit">Submit</button>
+    </form>
+
+    <ul id="userlist"></ul>
+    <p id="output"></p>
+    <input type="text" placeholder="Enter your name" id="input" />
+
+    <p id="msg"></p>
+    <button id="btn">Click me</button>
 
     <script src="app.js"></script>
   </body>
