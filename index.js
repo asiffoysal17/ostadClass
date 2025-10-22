@@ -1,187 +1,70 @@
-const API_URL = "https://68f5151cb16eb6f46836528c.mockapi.io/string";
+console.log("Hello World");
 
-const taskInput = document.getElementById("task-input");
-const addBtn = document.getElementById("add-btn");
-const updateBtn = document.getElementById("update-btn");
-const cancelBtn = document.getElementById("cancel-btn");
-const updateControl = document.getElementById("update-controls");
-const errorMessage = document.getElementById("error-message");
-const loading = document.getElementById("loading");
-const tasksList = document.getElementById("tasks-list");
+// 1) calculateSum
 
-let editingTaskId = null;
-
-// Show Error Massage
-function showError(message) {
-  errorMessage.textContent = message;
-  errorMessage.style.display = "block";
-
-  setTimeout(() => {
-    errorMessage.style.display = "none";
-  }, 3000);
+function calculatesum(a, b) {
+  return a + b;
 }
 
-// ## Fetch all tasks: Read
+console.log(calculatesum(5, 6));
 
-async function fetchTasks() {
-  loading.style.display = "block";
-  tasksList.innerHTML = "";
+// 2) isEven
 
-  try {
-    const response = await fetch(API_URL);
-    const tasks = await response.json();
-    console.log(tasks);
-    loading.style.display = "none";
-
-    if (taskInput.length === 0) {
-      tasksList.HTML = `<div class= "empty-state"> No tasks yet. Add to get started! </div> `;
-    }
-
-    tasks.formatch((task) => {
-      const li = createTaskElement(task);
-      tasksList.appendChild(li);
-    });
-  } catch (error) {
-    loading.style.display = "none";
-    showError("Failed to load tasks. Please try again later.");
-    console.log(error);
+function isEven(num) {
+  if (num % 2 == 0) {
+    return true;
+  } else {
+    return false;
   }
 }
 
-function createTaskElement(task) {
-  const li = document.createElement("li");
-  li.classname = "task-item";
-  const completionBtn = task.completed
-    ? `<button class="btn-undone" oneClick="toggleComplete('${task.id}', ${task.completed} )">Undo</button>`
-    : `<button class="btn-done" oneClick="toggleComplete('${task.id}', ${task.completed} )">Done</button>`;
-  li.innerHTML = `
-    <div class="task-content">
-            <div class="task-title">${task.title}</div>
-            <div class="task-id">${task.id}</div>
-        </div>
+console.log(isEven(17));
+console.log(isEven(18));
 
-        <div class="task-actions">
-            ${completionBtn}
-            <button class="btn-edit" oneclick="editTask(${task.id}, '${task.title}')">Edit</button>
-            <button class="btn-delete" oneClick="deleteTake(${task.id})">Delete</button>
-        </div>
-    `;
-  return li;
+// 3) fildMax
+
+function fildMax(arr) {
+  return Math.max(...arr);
 }
 
-//  Create new task: Create
-async function creatTask() {
-  const title = taskInput.value;
-  if (!title) {
-    showError("Please enter a task title");
-    return;
-  }
-  try {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        completed: false,
-      }),
-    });
+console.log(fildMax([10, 23, 45, 567, 89, 999, 8987]));
 
-    if (response.ok) {
-      fetchTasks();
-    }
-  } catch (error) {
-    loading.style.display = "none";
-    showError("Failed to create task. Please try again later.");
-    console.log(error);
-  }
+// 4) reverseString
+
+function reverseString(str) {
+  return str.split("").reverse().join("");
+}
+console.log(reverseString("hello"));
+
+// 5) filteroddNumbers
+
+function filteroddNumbers(arr) {
+  return arr.filter((num) => num % 2 !== 0);
 }
 
-// Edit Task: Update
-function editTask(id, title) {
-  editingTaskId = id;
-  taskInput.value = title;
-  addBtn.style.display = "none";
-  updateControl.style.display = "block";
-  taskInput.foucus();
+console.log(filteroddNumbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+
+// 6) sumArray
+
+function sumArray(arr) {
+  return arr.reduce((sum, num) => sum + num, 0);
 }
 
-function cancelUpdate() {
-  editingTaskId = null;
-  taskInput.value = "";
-  addBtn.style.display = "block";
-  updateControl.style.display = "none";
-}
-// Update Task: Update
+console.log(sumArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 99, 878]));
 
-async function updateTask() {
-  const title = taskInput.value;
-  if (!title) {
-    showError("plaese enter a task title");
-    return;
-  }
+// 7) sotrArray
 
-  try {
-    const response = await fetch(`${API_URL}/${editingTaskId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.ok) {
-      cancelBtn();
-      fetchTasks();
-    }
-  } catch (error) {
-    loading.style.display = "none";
-    showError("Failed to update task. Please try again later.");
-    console.log(error);
-  }
+function sotrArray(arr) {
+  return arr.slice().sort((a, b) => a - b);
 }
 
-async function toggleComplete(id, currentStatus) {
-  try {
-    const response = await fetch(`${API_URL}/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        completed: !currentStatus,
-      }),
-    });
-  } catch (error) {
-    loading.style.display = "none";
-    showError("Failed to update task. Please try again later.");
-    console.log(error);
-  }
+console.log(sotrArray([9, 8, 7, 6, 5, 4, 3, 2, 1, 0]));
+
+// 8) capitalizeFristLetter
+
+function capitalizeFristLetter(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Delete Task: Delete
-
-async function deteteTask(id) {
-  if (!confirm("Are you sure you want to delete this task?")) {
-    return;
-  }
-
-  try {
-    const response = await fetch(`${API_URL}/${id}`, {
-      method: "DELETE",
-    });
-
-    if (response.ok) {
-      fetchTasks();
-    }
-  } catch (error) {
-    loading.style.display = "none";
-    showError("Faild to delete task. Please try again later.");
-    console.log(error);
-  }
-}
-
-addBtn.addEventListener("click", creatTask);
-updateBtn.addEventListener("click", updateTask);
-cancelBtn.addEventListener("click", cancelUpdate);
-fetchTasks();
+console.log(capitalizeFristLetter("hello"));
