@@ -1,98 +1,72 @@
-function getWeather() {
-  const apiKey = "0db8a6f4bb5c81d72f1d7613420c0fab";
-  const city = document.getElementById("city").value;
+const fs = require("fs");
 
-  if (!city) {
-    alert("Please Enter a City");
-    return;
-  }
+// ## Reading file
+// synchonous
+const data = fs.readFileSync("file.txt", "utf8"); // Blocking
+console.log(data);
+console.log("This logs file is read.");
 
-  const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
-  const foreCastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
+// Asynchronous
+fs.readFile("file.txt", "utf8", (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
 
-  fetch(currentWeatherUrl)
-    .then((res) => res.json())
-    .then((data) => displayWeather(data))
-    .catch((err) => {
-      console.error("Error Fetching Data", err);
-      alert("Error Fetching Data, Please Try Again");
-    });
+console.log("this logs first.");
 
-  fetch(foreCastUrl)
-    .then((res) => res.json())
-    .then((data) => displayHourlyForecast(data.list))
-    .catch((err) => {
-      console.error("Error Fetching Hourly Forecast", err);
-      alert("Error Fetching Hourly Forecast, Please Try Again");
-    });
-}
+//  ## writing file
 
-function displayWeather(data) {
-  const tempDivInfo = document.getElementById("temp-div");
-  const weatherInfoDiv = document.getElementById("weather-info");
-  const weatherIcon = document.getElementById("weather-icon");
-  const hourlyForecastDiv = document.getElementById("hourly-forecast");
+// asynchronous
 
-  // Clear Previous Content
-  weatherInfoDiv.innerHTML = "";
-  hourlyForecastDiv.innerHTML = "";
-  tempDivInfo.innerHTML = "";
+fs.writeFile("output.txt", "Hello node.js", (err) => {
+  if (err) throw err;
+  console.log("File written successfully");
+});
 
-  console.log("weather data", data);
+console.log("This logs first");
 
-  if (data.cod === "404") {
-    weatherInfoDiv.innerHTML = `<p>${data.message}</p>`;
+//  scynchonous
+
+fs.writeFileSync("output-syn.txt", "hello sync node.js");
+
+// ## Appending file
+
+// asyn
+
+// fs.appendFile("output.txt" , \n"Hello Ostad", (err) => {
+//  if (err) throw err;
+// console.log("Content appended");
+// })
+
+// sync
+
+fs.appendFileSync("output.txt", "\n I am learning node.js");
+
+// ## Deleting file
+
+fs.unlink("output-syn.txt", (err) => {
+  if (err) throw err;
+  console.log("File deleted");
+});
+
+// fs.unlinksync("output-syn.txt", (err) => {
+//   if (err) throw err;
+//   console.log("File deleted");
+// });
+
+//  ## Renaming file
+
+fs.rename("file.txt", "ostad-file.txt", (err) => {
+  if (err) throw err;
+  console.log("File renamed");
+});
+
+// ## checking file exists
+
+fs.access("ostad-file.txt", fs.constants.F_OK, (err) => {
+  if (err) {
+    console.log("File does not exist");
   } else {
-    const cityName = data.name;
-    // temperature in celsius
-    const temperature = Math.round(data.main.temp - 273.15);
-    const description = data.weather[0].description;
-    const iconCode = data.weather[0].icon;
-    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
-
-    const temperatureHTML = `
-      <p>${temperature}</p>
-    `;
-
-    const weatherHTML = `
-      <p>${cityName}</p>
-      <p>${description}</p>
-    `;
-
-    tempDivInfo.innerHTML = temperatureHTML;
-    weatherInfoDiv.innerHTML = weatherHTML;
-    weatherIcon.src = iconUrl;
-    weatherIcon.alt = description;
-
-    showImage();
+    console.log("File exists");
   }
-}
-
-function displayHourlyForecast(hourlyData) {
-  const hourlyForecastDiv = document.getElementById("hourly-forecast");
-
-  const next24Hours = hourlyData.slice(0, 8);
-
-  next24Hours.forEach((item) => {
-    const dateTime = new Date(item.dt * 1000);
-    const hour = dateTime.getHours();
-    const temperature = Math.round(item.main.temp - 273.15);
-    const iconCode = item.weather[0].icon;
-    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
-
-    const hourlyItemHtml = `
-      <div id="hourly-item">
-        <span>${hour}:00</span>
-        <img src="${iconUrl}" alt="Hourly Weather Icon">
-        <span>${temperature}°C&nbsp</span>
-      </div>
-    `;
-
-    hourlyForecastDiv.innerHTML += hourlyItemHtml;
-  });
-}
-
-function showImage() {
-  const weatherIcon = document.getElementById("weather-icon");
-  weatherIcon.style.display = "block";
-}
+});
